@@ -19,14 +19,14 @@ MinimizeApps(sec, titles)
             IfWinExist, %element%
             {
                 titles.Remove(index)
-                Sleep, 3000
+                Sleep, 1500
                 WinMinimize, %element%
                 ;Toast(element . " minimized", 1000)
             }
         }
         Sleep, 1000
     }
-    ;Toast(element . "minimize finished", 1000)
+    Toast(element . "UzaiWindowMinizer finished", 1000)
 }
 
 
@@ -34,5 +34,6 @@ titles := Object()
 titles.Insert("Google Chat")
 titles.Insert("Messenger")
 titles.Insert("LINE")
+titles.Insert("LINE")	;LINE will appear window twice.
 titles.Insert("Zoom")
-MinimizeApps(5, titles)
+MinimizeApps(30, titles)
