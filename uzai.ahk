@@ -11,29 +11,46 @@ Toast(msg, sec) {
     SplashTextOff
 }
 
-MinimizeApps(sec, titles)
+
+HideApps(sec, data)
 {
     Loop, %sec% {
-        For index, element in titles
+        For i, elm in data
         {
-            IfWinExist, %element%
+            title := elm.title
+            action := elm.action
+            ;Toast("search title=" . title . ", action=" . action, 1000)
+
+            IfWinExist, %title%
             {
-                titles.Remove(index)
-                Sleep, 1500
-                WinMinimize, %element%
-                ;Toast(element . " minimized", 1000)
+                ;Toast("found title=" . title, 1000)
+                If( action = "close" )
+                {
+                    ;Toast("close title=" . title, 1000)
+                    WinClose, %title%
+                }
+                Else If( action = "minimize" )
+                {
+                    ;Toast("minimize title=" . title, 1000)
+                    WinMinimize, %title%
+                }
+                data.Remove(i)
             }
         }
+
         Sleep, 1000
     }
-    Toast(element . "UzaiWindowMinizer finished", 1000)
+    ;Toast("HideApp2 finished", 1000)
 }
 
 
-titles := Object()
-titles.Insert("Google Chat")
-titles.Insert("Messenger")
-titles.Insert("LINE")
-titles.Insert("LINE")	;LINE will appear window twice.
-titles.Insert("Zoom")
-MinimizeApps(30, titles)
+
+
+arr := []
+arr.Push({title:"Google Chat", action:"minimize"})
+arr.Push({title:"Messenger", action:"close"})
+arr.Push({title:"LINE", action:"close"})
+arr.Push({title:"LINE", action:"close"})
+arr.Push({title:"Zoom", action:"close"})
+
+HideApps(30, arr)
